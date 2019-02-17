@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy-deployment
+  namespace: watchtower
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: proxy
+  template:
+    metadata:
+      labels:
+        component: proxy
+    spec:
+      containers:
+        - name: proxy
+          image: mattgarnett/proxy:latest
+          ports:
+            - containerPort: 8000
+        - name: tor
+          image: dperson/torproxy:latest
+          ports:
+            - containerPort: 9050
